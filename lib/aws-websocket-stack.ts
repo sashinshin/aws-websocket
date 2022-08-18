@@ -1,6 +1,6 @@
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
-import { addConnectHandlerLambda, addDisonnectHandlerLambda, addMessageHandlerLambda } from './lambda-resources';
+import { addConnectHandlerLambda, addDisonnectHandlerLambda, addMessageHandlerLambda, addDefaultHandlerLambda } from './lambda-resources';
 
 import { WebsocketApi } from "./websocket-api";
 
@@ -15,9 +15,10 @@ export class AwsWebsocketStack extends cdk.Stack {
       partitionKey: { name: 'connectionId', type: cdk.aws_dynamodb.AttributeType.STRING }
     });
 
-    const connectFn = addConnectHandlerLambda(this, connectionsTable)
-    const disconnectFn = addDisonnectHandlerLambda(this, connectionsTable)
-    const messageHandlerLambda = addMessageHandlerLambda(this, connectionsTable)
+    const connectFn = addConnectHandlerLambda(this, connectionsTable);
+    const disconnectFn = addDisonnectHandlerLambda(this, connectionsTable);
+    const sendmesssageFn = addMessageHandlerLambda(this, connectionsTable);
+    const defaultFn = addDefaultHandlerLambda(this);
 
     const websocketApi = new WebsocketApi(this, 'Websocket Api', {
       apiName: "websocket-api",
@@ -25,6 +26,8 @@ export class AwsWebsocketStack extends cdk.Stack {
       stageName: 'production',
       connectFn,
       disconnectFn,
+      sendmesssageFn,
+      defaultFn,
       connectionsTable
     })
 

@@ -13,6 +13,8 @@ export interface WebsocketApiProps {
   readonly stageName: string;
   readonly connectFn: IFunction;
   readonly disconnectFn: IFunction;
+  readonly defaultFn: IFunction;
+  readonly sendmesssageFn: IFunction;
   readonly connectionsTable: ITable;
 }
 
@@ -42,11 +44,14 @@ export class WebsocketApi extends Construct {
       deploymentId: this.deployment.ref
     });
 
-    props.connectionsTable.grantWriteData(props.connectFn);
-    props.connectionsTable.grantWriteData(props.disconnectFn);
+    // props.connectionsTable.grantWriteData(props.connectFn);
+    // props.connectionsTable.grantWriteData(props.disconnectFn);
 
     this.addLambdaIntegration(props.connectFn, "$connect", "ConnectionRoute");
     this.addLambdaIntegration(props.disconnectFn, "$disconnect", "DisconnectRoute");
+    this.addLambdaIntegration(props.defaultFn, "$disconnect", "DefaultRoute");
+    this.addLambdaIntegration(props.sendmesssageFn, "sendmessage", "MessageRoute");
+
   }
 
   addLambdaIntegration(fn: IFunction, routeKey: string, operationName: string, apiKeyRequired?: boolean, authorizationType?: string) {

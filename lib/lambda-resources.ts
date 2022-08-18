@@ -51,6 +51,15 @@ export const addDisonnectHandlerLambda = (stack: Construct, connectionsTable: cd
         ]
     }));
 
+export const addDefaultHandlerLambda = (stack: Construct) => (
+    new NodejsFunction(stack, "DefaultHandlerLambda", {
+        description: "Lambda that access salt resources",
+        handler: "handler",
+        entry: join(__dirname, "../lambda/defaultHandler/index.ts"),
+        runtime: Runtime.NODEJS_14_X,
+        timeout: cdk.Duration.seconds(30),
+    }));
+
 export const addMessageHandlerLambda = (stack: Construct, connectionsTable: cdk.aws_dynamodb.Table) => (
     new NodejsFunction(stack, "MessageHandlerLambda", {
         description: "Lambda that access salt resources",
