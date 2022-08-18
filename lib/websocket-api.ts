@@ -49,7 +49,7 @@ export class WebsocketApi extends Construct {
 
     this.addLambdaIntegration(props.connectFn, "$connect", "ConnectionRoute");
     this.addLambdaIntegration(props.disconnectFn, "$disconnect", "DisconnectRoute");
-    this.addLambdaIntegration(props.defaultFn, "$disconnect", "DefaultRoute");
+    this.addLambdaIntegration(props.defaultFn, "$default", "DefaultRoute");
     this.addLambdaIntegration(props.sendmesssageFn, "sendmessage", "MessageRoute");
 
   }
