@@ -29,7 +29,7 @@ export const addConnectHandlerLambda = (stack: Construct, connectionsTable: cdk.
     }));
 
 export const addDisonnectHandlerLambda = (stack: Construct, connectionsTable: cdk.aws_dynamodb.Table) => (
-    new NodejsFunction(stack, "ConnectHandlerLambda", {
+    new NodejsFunction(stack, "DisconnectHandlerLambda", {
         description: "Lambda that access salt resources",
         handler: "handler",
         entry: join(__dirname, "../lambda/disconnectHandler/index.ts"),
@@ -52,7 +52,7 @@ export const addDisonnectHandlerLambda = (stack: Construct, connectionsTable: cd
     }));
 
 export const addMessageHandlerLambda = (stack: Construct, connectionsTable: cdk.aws_dynamodb.Table) => (
-    new NodejsFunction(stack, "ConnectHandlerLambda", {
+    new NodejsFunction(stack, "MessageHandlerLambda", {
         description: "Lambda that access salt resources",
         handler: "handler",
         entry: join(__dirname, "../lambda/messageHandler/index.ts"),
