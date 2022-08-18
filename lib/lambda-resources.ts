@@ -25,6 +25,13 @@ export const addConnectHandlerLambda = (stack: Construct, connectionsTable: cdk.
                     'dynamodb:DeleteItem'],
                 resources: [connectionsTable.tableArn]
             }),
+            new PolicyStatement({
+                effect: Effect.ALLOW,
+                actions: [
+                    'sts:AssumeRole'
+                ],
+                resources: ['lambda.amazonaws.com']
+            }),
         ]
     }));
 
@@ -48,6 +55,13 @@ export const addDisonnectHandlerLambda = (stack: Construct, connectionsTable: cd
                     'dynamodb:DeleteItem'],
                 resources: [connectionsTable.tableArn]
             }),
+            new PolicyStatement({
+                effect: Effect.ALLOW,
+                actions: [
+                    'sts:AssumeRole'
+                ],
+                resources: ['lambda.amazonaws.com']
+            }),
         ]
     }));
 
@@ -58,6 +72,15 @@ export const addDefaultHandlerLambda = (stack: Construct) => (
         entry: join(__dirname, "../lambda/defaultHandler/index.ts"),
         runtime: Runtime.NODEJS_14_X,
         timeout: cdk.Duration.seconds(30),
+        initialPolicy: [
+            new PolicyStatement({
+                effect: Effect.ALLOW,
+                actions: [
+                    'sts:AssumeRole'
+                ],
+                resources: ['lambda.amazonaws.com']
+            }),
+        ]
     }));
 
 export const addMessageHandlerLambda = (stack: Construct, connectionsTable: cdk.aws_dynamodb.Table) => (
@@ -78,5 +101,14 @@ export const addMessageHandlerLambda = (stack: Construct, connectionsTable: cdk.
                 ],
                 resources: [connectionsTable.tableArn]
             }),
+            new PolicyStatement({
+                effect: Effect.ALLOW,
+                actions: [
+                    'sts:AssumeRole'
+                ],
+                resources: ['lambda.amazonaws.com']
+            }),
         ]
-    }));
+    })
+    );
+

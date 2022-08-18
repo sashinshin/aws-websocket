@@ -44,8 +44,8 @@ export class WebsocketApi extends Construct {
       deploymentId: this.deployment.ref
     });
 
-    // props.connectionsTable.grantWriteData(props.connectFn);
-    // props.connectionsTable.grantWriteData(props.disconnectFn);
+    props.connectionsTable.grantWriteData(props.connectFn);
+    props.connectionsTable.grantWriteData(props.disconnectFn);
 
     this.addLambdaIntegration(props.connectFn, "$connect", "ConnectionRoute");
     this.addLambdaIntegration(props.disconnectFn, "$disconnect", "DisconnectRoute");

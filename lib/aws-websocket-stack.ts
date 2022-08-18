@@ -29,7 +29,8 @@ export class AwsWebsocketStack extends cdk.Stack {
       sendmesssageFn,
       defaultFn,
       connectionsTable
-    })
+    });
+    
 
 
 

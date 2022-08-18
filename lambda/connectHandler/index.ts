@@ -15,7 +15,7 @@ exports.handler = async function (event: any, context: any) {
       .promise();
   } catch (err) {
     return {
-      statusCode: 500,
+      statusCode: 500
     };
   }
   return {
