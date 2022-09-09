@@ -3,6 +3,7 @@ import { Construct } from 'constructs';
 import { addConnectHandlerLambda, addDisonnectHandlerLambda, addMessageHandlerLambda, addDefaultHandlerLambda } from './lambda-resources';
 
 import { WebsocketApi } from "./websocket-api";
+import { addStaticPageBucket } from './s3-resources';
 
 
 
@@ -31,7 +32,7 @@ export class AwsWebsocketStack extends cdk.Stack {
       connectionsTable
     });
     
-
+    addStaticPageBucket(this);
 
 
   }

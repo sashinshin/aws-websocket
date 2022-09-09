@@ -1,7 +1,7 @@
 import { ITable } from "aws-cdk-lib/aws-dynamodb";
 import { IFunction } from "aws-cdk-lib/aws-lambda";
 import { CfnApi, CfnIntegration, CfnRoute, CfnStage, CfnDeployment } from "aws-cdk-lib/aws-apigatewayv2";
-import { ServicePrincipal } from "aws-cdk-lib/aws-iam";
+import { ServicePrincipal, Role, PolicyStatement } from "aws-cdk-lib/aws-iam";
 
 import { Aws, CfnOutput, Stack } from 'aws-cdk-lib';
 
@@ -22,7 +22,7 @@ export class WebsocketApi extends Construct {
   readonly props: WebsocketApiProps;
   readonly api: CfnApi;
   readonly deployment: CfnDeployment;
-  
+
 
   constructor(parent: Stack, name: string, props: WebsocketApiProps) {
     super(parent, name);
@@ -52,6 +52,13 @@ export class WebsocketApi extends Construct {
     this.addLambdaIntegration(props.defaultFn, "$default", "DefaultRoute");
     this.addLambdaIntegration(props.sendmesssageFn, "sendmessage", "MessageRoute");
 
+    const apiRole = new Role(this, 'apiRoleWebsocketTest', {
+      assumedBy: new ServicePrincipal('apigateway.amazonaws.com')
+    });
+    apiRole.addToPolicy(new PolicyStatement({
+      resources: ['*'],
+      actions: ['lambda:InvokeFunction'] }));
+
   }
 
   addLambdaIntegration(fn: IFunction, routeKey: string, operationName: string, apiKeyRequired?: boolean, authorizationType?: string) {
@@ -69,7 +76,7 @@ export class WebsocketApi extends Construct {
       }
     }));
 
-   this.deployment.addDependsOn(new CfnRoute(this, `${operationName}Route`, {
+    this.deployment.addDependsOn(new CfnRoute(this, `${operationName}Route`, {
       apiId: this.api.ref,
       routeKey: routeKey,
       apiKeyRequired: apiKeyRequired,

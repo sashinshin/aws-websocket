@@ -30,7 +30,7 @@ export const addConnectHandlerLambda = (stack: Construct, connectionsTable: cdk.
                 actions: [
                     'sts:AssumeRole'
                 ],
-                resources: ['lambda.amazonaws.com']
+                resources: ['*']
             }),
         ]
     }));
@@ -60,7 +60,7 @@ export const addDisonnectHandlerLambda = (stack: Construct, connectionsTable: cd
                 actions: [
                     'sts:AssumeRole'
                 ],
-                resources: ['lambda.amazonaws.com']
+                resources: ['*']
             }),
         ]
     }));
@@ -78,7 +78,7 @@ export const addDefaultHandlerLambda = (stack: Construct) => (
                 actions: [
                     'sts:AssumeRole'
                 ],
-                resources: ['lambda.amazonaws.com']
+                resources: ['*']
             }),
         ]
     }));
@@ -106,7 +106,7 @@ export const addMessageHandlerLambda = (stack: Construct, connectionsTable: cdk.
                 actions: [
                     'sts:AssumeRole'
                 ],
-                resources: ['lambda.amazonaws.com']
+                resources: ['*']
             }),
         ]
     })
